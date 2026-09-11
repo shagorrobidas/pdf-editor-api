@@ -2,3 +2,12 @@ asgiref==3.12.1
 Django==5.2.15
 djangorestframework==3.18.1
 sqlparse==0.6.0
+pymupdf>=1.24.0
+reportlab>=4.2.0
+uharfbuzz>=0.40.0
+pillow>=10.0.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+pytest>=8.0.0
+pytest-django>=4.8.0
+googletrans==4.0.0rc1

@@ -2,6 +2,8 @@
 
 A production-ready REST API built with Django and Django REST Framework (DRF) for manipulating PDF documents. Provides endpoints for PDF text extraction & language translation with full Bangla (Bengali) Unicode rendering, as well as customizable PDF watermarking.
 
+🚀 **Live API Base URL:** [https://pdf-editor-api.vercel.app/](https://pdf-editor-api.vercel.app/)
+
 ---
 
 ## Features
@@ -144,6 +146,16 @@ The server will start at `http://127.0.0.1:8000/`.
 
 #### cURL Example
 
+**Live (Vercel):**
+```bash
+curl -X POST https://pdf-editor-api.vercel.app/api/translate-pdf \
+  -F "file=@sample.pdf" \
+  -F "source_language=en" \
+  -F "target_language=bn" \
+  --output translated.pdf
+```
+
+**Local:**
 ```bash
 curl -X POST http://127.0.0.1:8000/api/translate-pdf \
   -F "file=@sample.pdf" \
@@ -186,6 +198,19 @@ curl -X POST http://127.0.0.1:8000/api/translate-pdf \
 
 #### cURL Example
 
+**Live (Vercel):**
+```bash
+curl -X POST https://pdf-editor-api.vercel.app/editor/pdf/watermark \
+  -F "file=@document.pdf" \
+  -F "text=CONFIDENTIAL" \
+  -F "position=center" \
+  -F "opacity=0.3" \
+  -F "color=#FF0000" \
+  -F "font_size=48" \
+  --output watermarked.pdf
+```
+
+**Local:**
 ```bash
 curl -X POST http://127.0.0.1:8000/editor/pdf/watermark \
   -F "file=@document.pdf" \

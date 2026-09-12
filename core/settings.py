@@ -150,7 +150,7 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.FormParser",
         "rest_framework.parsers.JSONParser",
     ],
-    "EXCEPTION_HANDLER": "pdf_editor.excelptions.custom_exception_handler",
+    "EXCEPTION_HANDLER": "pdf_editor.exceptions.custom_exception_handler",
 }
 
 # ---------------------------------------------------------------------------

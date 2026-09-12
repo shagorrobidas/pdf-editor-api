@@ -1,5 +1,3 @@
-"""Watermark application service using PyMuPDF."""
-
 from __future__ import annotations
 
 import io
@@ -42,11 +40,7 @@ def _stamp_page(
     color: Tuple[float, float, float],
     font_size: int | None = None,
 ) -> None:
-    """
-    Draw the watermark text on `page` directly with PyMuPDF's `page.insert_text()`.
-    Direct `insert_text` with `fill_opacity=opacity` accurately sets the PDF
-    /ca alpha graphics state for true transparency.
-    """
+    
     pw = page.rect.width
     ph = page.rect.height
     pad = _EDGE_PADDING
@@ -93,10 +87,6 @@ def _stamp_page(
 
 
 class WatermarkService:
-    """
-    Applies a text watermark to every page of a PDF document.
-    The original file is never modified; a new PDF is returned.
-    """
 
     def apply(
         self,

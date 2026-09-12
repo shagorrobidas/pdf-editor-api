@@ -1,5 +1,3 @@
-"""Service for reformatting unformatted or poorly structured PDFs with clean typography."""
-
 from __future__ import annotations
 
 import io
@@ -20,7 +18,11 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 
-from pdf_editor.exceptions import EmptyPDFError, InvalidPDFError, PDFProcessingError
+from pdf_editor.exceptions import (
+    EmptyPDFError,
+    InvalidPDFError,
+    PDFProcessingError
+)
 
 logger = logging.getLogger(__name__)
 
@@ -101,13 +103,6 @@ class NumberedCanvas(canvas.Canvas):
 
 
 class PDFReformatterService:
-    """
-    Parses a PDF document, analyzes its structure (headings, paragraphs, bullet lists),
-    and rebuilds it into a publication-quality document with perfect alignment, spacing,
-    hierarchy, and page layout.
-
-    Content integrity is 100% preserved (zero words altered, added, or removed).
-    """
 
     def reformat(self, pdf_bytes: bytes) -> bytes:
         _register_fonts()

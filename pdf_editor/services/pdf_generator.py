@@ -1,5 +1,3 @@
-"""PDF generation service using ReportLab with Bangla Unicode and publication-grade formatting."""
-
 from __future__ import annotations
 
 import io
@@ -164,16 +162,6 @@ def _make_styles() -> dict:
 
 
 class PDFGeneratorService:
-    """
-    Generates a publication-quality Unicode-capable PDF document from translated content.
-
-    Formatting features:
-    - Structured headings with hierarchy and orphan prevention (keepWithNext=True).
-    - Fully justified paragraphs with balanced leading.
-    - Bullet list styling with negative first-line indents.
-    - Two-pass NumberedCanvas with running header and "Page X of Y" footer.
-    - HarfBuzz complex script shaping (uharfbuzz) for natural Bangla rendering.
-    """
 
     def generate(self, pages: List[tuple[int, str]], title: str = "Translated Document") -> bytes:
         _register_fonts()

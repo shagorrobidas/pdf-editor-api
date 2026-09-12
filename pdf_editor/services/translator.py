@@ -1,9 +1,7 @@
-"""Translation service abstraction with Google Translate (free) and mock implementations."""
-
 from __future__ import annotations
 
 import logging
-import textwrap
+
 from abc import ABC, abstractmethod
 
 from django.conf import settings
@@ -35,12 +33,6 @@ class BaseTranslationService(ABC):
 
 
 class GoogleTranslateService(BaseTranslationService):
-    """
-    Uses the unofficial googletrans library to call Google Translate for free.
-    No API key is required — this uses the same endpoint as translate.google.com.
-
-    Long texts are split into chunks to stay within the per-request limit.
-    """
 
     def __init__(self) -> None:
         try:
@@ -57,7 +49,6 @@ class GoogleTranslateService(BaseTranslationService):
 
         # Split into paragraphs first, then chunk if needed
         lines = text.splitlines()
-        translated_lines = []
 
         # Group lines into chunks under _CHUNK_SIZE chars
         chunks: list[str] = []
@@ -126,11 +117,6 @@ _MOCK_TRANSLATIONS: dict[tuple[str, str], dict[str, str]] = {
 
 
 class MockTranslationService(BaseTranslationService):
-    """
-    Offline translation service for unit tests.
-    Returns real translations for known phrases; prefixes unknown text
-    with a clear tag so the PDF pipeline can still be exercised.
-    """
 
     def translate(self, text: str, source_language: str, target_language: str) -> str:
         pair = (source_language.lower(), target_language.lower())
@@ -206,13 +192,7 @@ class ExternalTranslationService(BaseTranslationService):
 
 
 def get_translation_service() -> BaseTranslationService:
-    """
-    Return the configured translation service based on ``TRANSLATION_PROVIDER``:
-
-    - ``"google"`` (default) — Free Google Translate via googletrans (no API key needed).
-    - ``"mock"``             — Offline mock, used in tests.
-    - ``"external"``         — Google Cloud Translation v2 REST API (requires TRANSLATION_API_KEY).
-    """
+    
     provider = getattr(settings, "TRANSLATION_PROVIDER", "google").lower()
 
     if provider == "mock":

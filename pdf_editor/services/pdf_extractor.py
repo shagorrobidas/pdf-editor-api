@@ -27,39 +27,8 @@ class PageText:
 
 
 class PDFExtractorService:
-    """
-    Extracts text content from a PDF file, page by page.
-
-    Notes
-    -----
-    * Scanned / image-only PDFs are *not* supported.  If a PDF contains no
-      extractable text an :class:`~pdf_editor.exceptions.EmptyPDFError` is raised.
-      OCR is explicitly *not* attempted.
-    * Unicode text (including Bangla) is returned as-is; no normalisation is
-      applied so the caller can decide how to handle it.
-    """
 
     def extract(self, pdf_bytes: bytes) -> List[PageText]:
-        """
-        Extract text from *pdf_bytes* and return a list of :class:`PageText`.
-
-        Parameters
-        ----------
-        pdf_bytes:
-            Raw bytes of a PDF file.
-
-        Returns
-        -------
-        list of PageText
-            One entry per page that contains non-blank text.
-
-        Raises
-        ------
-        InvalidPDFError
-            If *pdf_bytes* cannot be parsed as a PDF.
-        EmptyPDFError
-            If no page contains any extractable text (e.g. scanned PDFs).
-        """
         try:
             doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
         except Exception as exc:

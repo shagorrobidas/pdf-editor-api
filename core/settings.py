@@ -10,25 +10,39 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from dotenv import load_dotenv
+
+# ---------------------------------------------------------------------------
+# Base paths
+# ---------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p6m84fg5&1(cvb6b(48lyto!yyi%e-lz88ch_%q2=27)n-=y+^'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+load_dotenv(BASE_DIR / ".env")
 
 
+# ---------------------------------------------------------------------------
+# Core Django settings
+# ---------------------------------------------------------------------------
+# SECRET_KEY = 'django-insecure-p6m84fg5&1(cvb6b(48lyto!yyi%e-lz88ch_%q2=27)n-=y+^'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-dev-key-change-in-production-please",
+)
+
+DEBUG = os.environ.get("DEBUG", "True") == "True"
+
+ALLOWED_HOSTS = [
+    h.strip()
+    for h in os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost,testserver").split(",")
+]
+
+
+# ---------------------------------------------------------------------------
 # Application definition
+# ---------------------------------------------------------------------------
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,6 +51,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # third-party apps
+    "rest_framework",
+
+    # local apps
+    "pdf_editor",
+
 ]
 
 MIDDLEWARE = [
@@ -67,6 +88,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = 'core.asgi.application'
 
 
 # Database
@@ -110,13 +132,41 @@ USE_I18N = True
 
 USE_TZ = True
 
+# ---------------------------------------------------------------------------
+# Static / Media
+# ---------------------------------------------------------------------------
+STATIC_URL = "/static/"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# ---------------------------------------------------------------------------
+# Django REST Framework
+# ---------------------------------------------------------------------------
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.MultiPartParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.JSONParser",
+    ],
+    "EXCEPTION_HANDLER": "pdf_editor.excelptions.custom_exception_handler",
+}
 
-STATIC_URL = 'static/'
+# ---------------------------------------------------------------------------
+# PDF Editor settings
+# ---------------------------------------------------------------------------
+# Maximum allowed upload size (bytes)
+MAX_PDF_SIZE_MB: int = int(os.environ.get("MAX_PDF_SIZE_MB", "10"))
+MAX_PDF_SIZE_BYTES: int = MAX_PDF_SIZE_MB * 1024 * 1024
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+# Translation service
+TRANSLATION_PROVIDER: str = os.environ.get("TRANSLATION_PROVIDER", "google")
+TRANSLATION_API_KEY: str = os.environ.get("TRANSLATION_API_KEY", "")
+TRANSLATION_API_URL: str = os.environ.get(
+    "TRANSLATION_API_URL",
+    "https://translation.googleapis.com/language/translate/v2",
+)
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Fonts directory (shipped inside the project root)
+FONTS_DIR: Path = BASE_DIR / "fonts"

@@ -36,7 +36,9 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = [
     h.strip()
-    for h in os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost,testserver").split(",")
+    for h in os.environ.get(
+        "ALLOWED_HOSTS", "127.0.0.1,localhost,testserver,.vercel.app"
+    ).split(",")
 ]
 
 

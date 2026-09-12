@@ -1,0 +1,144 @@
+{
+  "info": {
+    "_postman_id": "51b54da0-59bc-4985-b694-5f77fa847b2a",
+    "name": "pdf editor",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46914186",
+    "_collection_link": "https://go.postman.co/collection/46914186-51b54da0-59bc-4985-b694-5f77fa847b2a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Tenselate",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "0d9cbd5c-99c1-4a63-aefb-9bcf8b132273",
+              "src": "/home/sagor/Desktop/all/nature_in_bangladesh.pdf"
+            },
+            {
+              "key": "source_language",
+              "value": "en",
+              "type": "text",
+              "uuid": "2b46c83d-b11a-4c73-aaa8-cf0e1a8f6332"
+            },
+            {
+              "key": "target_language",
+              "value": "bn",
+              "type": "text",
+              "uuid": "85a277d8-607d-4fb9-b8ef-f86b722f7ee9"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url}}api/translate-pdf",
+          "host": [
+            "{{url}}api"
+          ],
+          "path": [
+            "translate-pdf"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Watermark",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "uuid": "ee67e0b3-a543-4df9-b55e-6820d344b70d",
+              "src": "/home/sagor/Desktop/all/nature_in_bangladesh.pdf"
+            },
+            {
+              "key": "text",
+              "value": "Shagor",
+              "type": "text",
+              "uuid": "27ec8594-f834-4dbe-af29-01a389eb5f3c"
+            },
+            {
+              "key": "position",
+              "value": "center",
+              "type": "text",
+              "uuid": "bd1b282e-9b5b-4a81-8b47-b10cd03498eb"
+            },
+            {
+              "key": "opacity",
+              "value": "0.5",
+              "type": "text",
+              "uuid": "2e1a5cbb-56a1-467a-bc36-538d751dbbec"
+            },
+            {
+              "key": "color",
+              "value": "#FF2400",
+              "type": "text",
+              "uuid": "4b7549ba-5e16-410b-a60b-4d46d3491acc"
+            },
+            {
+              "key": "font_size",
+              "value": "55",
+              "type": "text",
+              "uuid": "5cdab72d-dc86-4e22-83fe-3b602f62b222"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{url}}editor/pdf/watermark",
+          "host": [
+            "{{url}}editor"
+          ],
+          "path": [
+            "pdf",
+            "watermark"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": ""
+    },
+    {
+      "key": "versel_url",
+      "value": ""
+    }
+  ]
+}

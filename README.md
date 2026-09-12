@@ -147,6 +147,7 @@ The server will start at `http://127.0.0.1:8000/`.
 #### cURL Example
 
 **Live (Vercel):**
+
 ```bash
 curl -X POST https://pdf-editor-api.vercel.app/api/translate-pdf \
   -F "file=@sample.pdf" \
@@ -156,6 +157,7 @@ curl -X POST https://pdf-editor-api.vercel.app/api/translate-pdf \
 ```
 
 **Local:**
+
 ```bash
 curl -X POST http://127.0.0.1:8000/api/translate-pdf \
   -F "file=@sample.pdf" \
@@ -199,6 +201,7 @@ curl -X POST http://127.0.0.1:8000/api/translate-pdf \
 #### cURL Example
 
 **Live (Vercel):**
+
 ```bash
 curl -X POST https://pdf-editor-api.vercel.app/editor/pdf/watermark \
   -F "file=@document.pdf" \
@@ -211,6 +214,7 @@ curl -X POST https://pdf-editor-api.vercel.app/editor/pdf/watermark \
 ```
 
 **Local:**
+
 ```bash
 curl -X POST http://127.0.0.1:8000/editor/pdf/watermark \
   -F "file=@document.pdf" \

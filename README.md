@@ -7,6 +7,7 @@ A production-ready REST API built with Django and Django REST Framework (DRF) fo
 ## Features
 
 ### 1. PDF Language Translator (`POST /api/translate-pdf`)
+
 - Extracts text page-by-page from text-based PDFs using **PyMuPDF**.
 - Translates extracted text using pluggable translation providers:
   - **Google Translate (`google`)** — Free automatic translation via `googletrans` (default, no API key required).
@@ -17,12 +18,14 @@ A production-ready REST API built with Django and Django REST Framework (DRF) fo
 - Supports 70+ ISO 639-1 language pairs (including English ↔ Bengali).
 
 ### 2. PDF Watermark (`POST /editor/pdf/watermark`)
+
 - Applies custom text watermarks to **every page** of a PDF.
 - Seven configurable positions: `top-left`, `top-center`, `top-right`, `center`, `bottom-left`, `bottom-center`, `bottom-right`.
 - Customizable opacity (`0.0` – `1.0`), hex color (`#RRGGBB` or `#RGB`), and font size (`6`–`200` pt).
 - Returns the newly watermarked PDF in-stream without modifying the original document.
 
 ### 3. PDF Reformatting Service (`pdf_editor.services.pdf_reformatter`)
+
 - Core service for fixing heading hierarchies, unwrapping broken lines into justified paragraphs, and adding running headers/footers with dynamic page numbering.
 
 ---
@@ -46,12 +49,14 @@ cd pdf-editor
 ### 2. Create and activate a virtual environment
 
 **Linux / macOS:**
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 **Windows (PowerShell):**
+
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
@@ -131,11 +136,11 @@ The server will start at `http://127.0.0.1:8000/`.
 
 #### Request Parameters
 
-| Parameter | Type | Required | Description |
-| :--- | :--- | :--- | :--- |
-| `file` | File (`.pdf`) | **Yes** | Text-based PDF file (max 10 MB by default) |
-| `source_language` | String | **Yes** | ISO 639-1 language code (e.g. `en`, `bn`, `es`, `fr`) |
-| `target_language` | String | **Yes** | ISO 639-1 language code (e.g. `bn`, `en`, `de`) |
+| Parameter         | Type          | Required | Description                                           |
+| :---------------- | :------------ | :------- | :---------------------------------------------------- |
+| `file`            | File (`.pdf`) | **Yes**  | Text-based PDF file (max 10 MB by default)            |
+| `source_language` | String        | **Yes**  | ISO 639-1 language code (e.g. `en`, `bn`, `es`, `fr`) |
+| `target_language` | String        | **Yes**  | ISO 639-1 language code (e.g. `bn`, `en`, `de`)       |
 
 #### cURL Example
 
@@ -148,11 +153,13 @@ curl -X POST http://127.0.0.1:8000/api/translate-pdf \
 ```
 
 #### Success Response (HTTP 200)
+
 - **Content-Type:** `application/pdf`
 - **Content-Disposition:** `attachment; filename="translated_en_to_bn.pdf"`
 - Returns the generated translated PDF binary.
 
 #### Error Response (HTTP 400)
+
 ```json
 {
   "error": "A valid PDF file is required (invalid PDF header)."
@@ -168,14 +175,14 @@ curl -X POST http://127.0.0.1:8000/api/translate-pdf \
 
 #### Request Parameters
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `file` | File (`.pdf`) | **Yes** | — | PDF file to watermark |
-| `text` | String | **Yes** | — | Text to overlay (e.g. `CONFIDENTIAL`) |
-| `position` | String | **Yes** | — | `top-left`, `top-center`, `top-right`, `center`, `bottom-left`, `bottom-center`, `bottom-right` |
-| `opacity` | Float | **Yes** | — | Opacity from `0.0` (invisible) to `1.0` (solid) |
-| `color` | String | **Yes** | — | Hex color code (e.g. `#FF0000` or `#F00`) |
-| `font_size` | Integer | No | `36` | Font size in points (`6`–`200`) |
+| Parameter   | Type          | Required | Default | Description                                                                                     |
+| :---------- | :------------ | :------- | :------ | :---------------------------------------------------------------------------------------------- |
+| `file`      | File (`.pdf`) | **Yes**  | —       | PDF file to watermark                                                                           |
+| `text`      | String        | **Yes**  | —       | Text to overlay (e.g. `CONFIDENTIAL`)                                                           |
+| `position`  | String        | **Yes**  | —       | `top-left`, `top-center`, `top-right`, `center`, `bottom-left`, `bottom-center`, `bottom-right` |
+| `opacity`   | Float         | **Yes**  | —       | Opacity from `0.0` (invisible) to `1.0` (solid)                                                 |
+| `color`     | String        | **Yes**  | —       | Hex color code (e.g. `#FF0000` or `#F00`)                                                       |
+| `font_size` | Integer       | No       | `36`    | Font size in points (`6`–`200`)                                                                 |
 
 #### cURL Example
 
@@ -191,11 +198,13 @@ curl -X POST http://127.0.0.1:8000/editor/pdf/watermark \
 ```
 
 #### Success Response (HTTP 200)
+
 - **Content-Type:** `application/pdf`
 - **Content-Disposition:** `attachment; filename="watermarked_document.pdf"`
 - Returns the watermarked PDF binary.
 
 #### Error Response (HTTP 400)
+
 ```json
 {
   "error": "Invalid position. Allowed values are: bottom-center, bottom-left, bottom-right, center, top-center, top-left, top-right."
@@ -209,6 +218,7 @@ curl -X POST http://127.0.0.1:8000/editor/pdf/watermark \
 Bengali is a complex Brahmic script requiring glyph reordering, matra positioning, and conjunct (যুক্তবর্ণ) ligature substitution. Standard PDF generators render disconnected or broken characters without OpenType shaping.
 
 ### How It Works Here:
+
 1. **Bundled Fonts**: `NotoSansBengali-Regular.ttf` and `NotoSansBengali-Bold.ttf` are provided in the `fonts/` directory.
 2. **ReportLab + HarfBuzz**: Fonts are registered with `shapable=True` via ReportLab's `TTFont`.
 3. **OpenType Shaping**: `uharfbuzz` performs full OpenType layout shaping on every text paragraph, ensuring authentic ligature composition and conjunct rendering.
